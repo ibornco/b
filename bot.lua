@@ -1932,11 +1932,10 @@ local function gpro(extra, result, success)
          database:set('editmsg'..msg.chat_id_,'didam')
 	end
 	-----------------------------------------------------------------------------------------------
-	if text:match("^[#!/]setlink (.*)$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
-	local txt = {string.match(text, "^[#/!](setlink) (.*)$")}
-	database:set('bot:link'..msg.chat_id_, txt[2])
-         send(msg.chat_id_, msg.id_, 1, '*Group Link updated...*', 1, 'md')
-    end
+	if text:match("^[#!/]setlink$") and is_mod(msg.sender_user_id_, msg.chat_id_) then
+         send(msg.chat_id_, msg.id_, 1, '*Please Send Group Link Now!*', 1, 'md')
+         database:set("bot:group:link"..msg.chat_id_, 'Waiting For Link!\nPls Send Group Link.')
+	end
 	-----------------------------------------------------------------------------------------------
 	if text:match("^[#!/]link$") then
 	local link = database:get('bot:link'..msg.chat_id_)
@@ -2424,6 +2423,18 @@ local function gpro(extra, result, success)
          send(msg.chat_id_, msg.id_, 1, '*Group rules updated...*', 1, 'md')
     end
 	-----------------------------------------------------------------------------------------------
+  if text:match("^[#!/]setnerkh (.*)$") and is_admin(msg.sender_user_id_, msg.chat_id_) then
+	local txt = {string.match(text, "^[#/!](setnerkh) (.*)$")}
+	database:set('bot:nerkh'..msg.chat_id_, txt[2])
+         send(msg.chat_id_, msg.id_, 1, '_nerkh updated..._', 1, 'md')
+    end
+	-----------------------------------------------------------------------------------------------
+  	if text:match("^[#!/]nerkh$") then
+	local nerkh = database:get('bot:nerkh'..msg.chat_id_)
+         send(msg.chat_id_, msg.id_, 1, nerkh, 1, nil)
+    end
+  
+  -----------------------------------------------------------------------------------------------
   	if text:match("^[#!/]rules$") then
 	local rules = database:get('bot:rules'..msg.chat_id_)
          send(msg.chat_id_, msg.id_, 1, rules, 1, nil)
